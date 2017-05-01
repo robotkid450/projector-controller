@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 
-import serial
-#import tkinter as tk
+import SanyoProtocol
+import tkinter as tk
+from tkinter import messagebox
 
-ser = serial.Serial('/dev/ttyUSB0', baudrate=19200)
+__version__ = '1.0'
 
-print(ser.name)
-ser.write(b'hello')
-ser.close()
+class projectorControlInterface(tk.Frame):
+    """docstring for projectorControlInterface."""
+    def __init__(self, master=None, projector=None):
+        tk.Frame.__init__(self, master)
+        self.projector = projector
