@@ -3,6 +3,7 @@
 import time
 import serial
 
+__version__ = '1.0'
 
 class projector:
     def __init__(self, port="/dev/ttyUSB0", baudrate=19200):
