@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import time
 import serial
 
 class projector:
@@ -60,6 +61,20 @@ class projector:
 
         self._disconnect()
 
+    def _readline(self):
+        msg = ''
+        time.sleep(.1)
+        charsAvalible = self.serialCon.in_waiting
+        for num in range(charsAvalible):
+            char = self.serialCon.read().decode()
+            if char != '\x0D':
+                msg = msg + char
+            else:
+                break
+
+        return msg
+
+
     def _recvData(self, bytesToRecv):
         try:
             data = self.serialCon.read(bytesToRecv)
@@ -69,10 +84,10 @@ class projector:
             return data
 
     def _getAck(self):
-        ack = self._recvData(self.ackSize)
-        if ack = '\x06\x0D':
+        ack = self._recvData(self.ackSize).decode()
+        if ack == '\x06\x0D':
             return 0
-        elif ack = '?'+'\x0D':
+        elif ack == '?\r':
             print("Invalid command")
             return 1
         else:
@@ -81,7 +96,7 @@ class projector:
 
     def powerOn(self):
         self._connect()
-        self._sendCommandControl(00)
+        self._sendCommandControl('00')
         self._getAck()
         self._disconnect()
 
@@ -102,6 +117,6 @@ class projector:
 
     def autoAdjust(self):
         self._connect()
-        self._sendCommandControl(89)
+        self._sendCommandControl('89')
         self._getAck()
         self._disconnect()
