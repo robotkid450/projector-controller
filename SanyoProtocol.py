@@ -74,20 +74,11 @@ class projector:
 
         return msg
 
-
-    def _recvData(self, bytesToRecv):
-        try:
-            data = self.serialCon.read(bytesToRecv)
-        except:
-            print("timeout")
-        else:
-            return data
-
     def _getAck(self):
-        ack = self._recvData(self.ackSize).decode()
-        if ack == '\x06\x0D':
+        ack = self._readline()
+        if ack == '\x06':
             return 0
-        elif ack == '?\r':
+        elif ack == '?':
             print("Invalid command")
             return 1
         else:
