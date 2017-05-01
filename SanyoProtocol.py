@@ -15,6 +15,7 @@ class projector:
         self.lampHours = -1
 
     def _connect(self):
+        # connects serial port
         try:
             self.serialCon = serial.Serial(
                 port=self.serialPort, baudrate=self.serialBaudrate, timeout=3)
@@ -25,6 +26,7 @@ class projector:
             self.serialIs_connected = 1
 
     def _disconnect(self):
+        # disconects serial port
         try:
             self.serialCon.close()
         except:
@@ -49,6 +51,7 @@ class projector:
         return msg
 
     def _sendCommandControl(self, command):
+        # sends a control command to projector
         # build command string
         commandToSend = "C" + str(command) + '\r'
         # encode commandToSend
@@ -69,6 +72,7 @@ class projector:
         return ack
 
     def _sendCommandRead(self, command):
+        # sends a read command to projector and return status message
         # build command string
         commandToSend = "CR" + str(command) + '\r'
         # encode commandToSend
@@ -88,6 +92,7 @@ class projector:
         return returnCode
 
     def _getAck(self):
+        # checks if control commands were sent correctly
         ack = self._readline()
         if ack == '\x06':
             return 0
@@ -99,18 +104,21 @@ class projector:
             return -1
 
     def powerOn(self):
+        # powers on the projector
         self._connect()
         status = self._sendCommandControl('00')
         self._disconnect()
         return status
 
     def powerOff(self):
+        # powers off the projector
         self._connect()
         status = self._sendCommandControl('01')
         self._disconnect()
         return status
 
     def setInput(self, videoInput):
+        # sets the video input of the projector
         videoInput = int(videoInput) + 4 # increments for command offset: input 1 = c05
         print(videoInput)
         videoInput = '0' + str(videoInput)
@@ -120,24 +128,27 @@ class projector:
         return status
 
     def autoAdjust(self):
+        # runs the projectors autoAdjust function
         self._connect()
         status = self._sendCommandControl('89')
         self._disconnect()
         return status
 
     def getStatusGeneral(self):
+        # polls projector for its general status. returns string
         self._connect()
         status = self._sendCommandRead('0')
         if status == '?':
             print('error getting status')
         else:
-            self.status = self.statusCodeGeneral
+            self.statusCodeGeneral = status
 
         self._disconnect()
 
         return status
 
     def getLampHour(self):
+        # polls projector for its current lamp Hours. Returns a list of 1 to 4 int
         self._connect()
         rawHours = self._sendCommandRead('3')
         if rawHours == '?':
@@ -152,6 +163,7 @@ class projector:
         return Hours
 
     def getInput(self):
+        # polls projector of current input. returns int
         self._connect()
         rawInput = self._sendCommandRead('1')
         if rawInput == '?':
