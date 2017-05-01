@@ -3,12 +3,16 @@
 import time
 import serial
 
+
 class projector:
     def __init__(self, port="/dev/ttyUSB0", baudrate=19200):
         self.serialPort = port
         self.serialBaudrate = baudrate
         self.serialIs_connected = 0
-        self.ackSize = 2
+        self.commandDelay = .1
+        self.statusCodeGeneral = ''
+        self.currentInput = 0
+        self.lampHours = -1
 
     def _connect(self):
         try:
@@ -30,6 +34,20 @@ class projector:
             print("serial disconected")
             self.serialIs_connected = 0
 
+    def _readline(self):
+        # reads from input buffer until it reaches '\r' (carage return)
+        msg = ''
+        time.sleep(.1)
+        charsAvalible = self.serialCon.in_waiting
+        for num in range(charsAvalible):
+            char = self.serialCon.read().decode()
+            if char != '\x0D':
+                msg = msg + char
+            else:
+                break
+
+        return msg
+
     def _sendCommandControl(self, command):
         # build command string
         commandToSend = "C" + str(command) + '\r'
@@ -44,7 +62,13 @@ class projector:
         else:
             print("data written")
 
-    def _sendCommandRead(self, command, bytesToRecv):
+        time.sleep(self.commandDelay)
+
+        ack = self._getAck()
+
+        return ack
+
+    def _sendCommandRead(self, command):
         # build command string
         commandToSend = "CR" + str(command) + '\r'
         # encode commandToSend
@@ -57,22 +81,11 @@ class projector:
         else:
             print("data written")
 
-        retunCode = self._recvData(bytesToRecv)
+        time.sleep(self.commandDelay)
 
-        self._disconnect()
+        returnCode = self._readline()
 
-    def _readline(self):
-        msg = ''
-        time.sleep(.1)
-        charsAvalible = self.serialCon.in_waiting
-        for num in range(charsAvalible):
-            char = self.serialCon.read().decode()
-            if char != '\x0D':
-                msg = msg + char
-            else:
-                break
-
-        return msg
+        return returnCode
 
     def _getAck(self):
         ack = self._readline()
@@ -87,27 +100,66 @@ class projector:
 
     def powerOn(self):
         self._connect()
-        self._sendCommandControl('00')
-        self._getAck()
+        status = self._sendCommandControl('00')
         self._disconnect()
+        return status
 
     def powerOff(self):
         self._connect()
-        self._sendCommandControl('01')
-        self._getAck()
+        status = self._sendCommandControl('01')
         self._disconnect()
+        return status
 
     def setInput(self, videoInput):
-        videoInput = videoInput + 4 # increments for command offset: input 1 = c05
+        videoInput = int(videoInput) + 4 # increments for command offset: input 1 = c05
         print(videoInput)
         videoInput = '0' + str(videoInput)
         self._connect()
-        self._sendCommandControl(videoInput)
-        self._getAck()
+        status = self._sendCommandControl(videoInput)
         self._disconnect()
+        return status
 
     def autoAdjust(self):
         self._connect()
-        self._sendCommandControl('89')
-        self._getAck()
+        status = self._sendCommandControl('89')
         self._disconnect()
+        return status
+
+    def getStatusGeneral(self):
+        self._connect()
+        status = self._sendCommandRead('0')
+        if status == '?':
+            print('error getting status')
+        else:
+            self.status = self.statusCodeGeneral
+
+        self._disconnect()
+
+        return status
+
+    def getLampHour(self):
+        self._connect()
+        rawHours = self._sendCommandRead('3')
+        if rawHours == '?':
+            print('error getting lamp hours')
+        else:
+            rawHours = str(rawHours)
+            Hours = rawHours.split(' ')
+            self.lampHours = Hours
+
+        self._disconnect()
+
+        return Hours
+
+    def getInput(self):
+        self._connect()
+        rawInput = self._sendCommandRead('1')
+        if rawInput == '?':
+            print('error getting status')
+        else:
+            videoInput = int(rawInput)
+            self.currentInput = videoInput
+
+        self._disconnect()
+
+        return videoInput
