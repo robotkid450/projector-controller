@@ -18,12 +18,43 @@ class projectorControlInterface(tk.Frame):
         self.createWidgets()
 
     def createWidgets(self):
-        top = self.winfo_toplevel()
-        top.rowconfigure(0,weight=1)
-        top.columnconfigure(0, weight=1)
+        self.top = self.winfo_toplevel()
+        self.top.rowconfigure(0,weight=1)
+        self.top.columnconfigure(0, weight=1)
 
-        self.test_button = tk.Button(self)
-        self.test_button.grid(row=0, column=0, columnspan=1, sticky=('N', 'S', 'E', 'W'))
+        self.power_on = tk.Button(self)
+        self.power_on.grid(row=1, column=0, columnspan=1, sticky=('N', 'S', 'E', 'W'))
+        self.power_on["command"] = lambda: print('power_on')
+        self.power_on["text"] = "Power ON"
+
+        self.power_off = tk.Button(self)
+        self.power_off.grid(row=1, column=1, columnspan=1, sticky=('N', 'S', 'E', 'W'))
+        self.power_off["command"] = lambda: print('power off')
+        self.power_off["text"] = "Power OFF"
+
+        self.createMenuBar()
+
+
+    def createMenuBar(self):
+        self.menu_bar = tk.Menu(root)
+
+        self.file_menu = tk.Menu(self.menu_bar, tearoff=0)
+        self.file_menu.add_command(label="Set serial port", command=lambda: print('set serial port'))
+        self.file_menu.add_separator()
+        self.file_menu.add_command(label='Quit', command=root.quit)
+
+        self.status_menu = tk.Menu(self.menu_bar, tearoff=0)
+        self.status_menu.add_command(label="Get general status", command=lambda: print('get gen stat'))
+        self.status_menu.add_command(label="Get lamp hours", command=lambda: print('get lamp hours'))
+        self.status_menu.add_command(label="Get input", command=lambda: print('get input'))
+
+
+        self.menu_bar.add_cascade(label="File", menu=self.file_menu)
+        self.menu_bar.add_cascade(label="Status", menu=self.status_menu)
+
+        root.config(menu=self.menu_bar)
+
+
 
 # runs main application
 def run():
