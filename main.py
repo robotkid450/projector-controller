@@ -34,6 +34,9 @@ class projectorControlInterface(tk.Frame):
 
         self.createMenuBar()
 
+	def createInputButtons(self):
+		for num in range(0..1):
+			pass
 
     def createMenuBar(self):
         self.menu_bar = tk.Menu(root)
