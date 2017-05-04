@@ -18,7 +18,7 @@ def main_control():
 		if action == 'powerOn':
 			print("power on")
 
-		return render_template('projector control.html')
+		return render_template('projector_control.html')
 
 @app.route('/confirm', methods=['POST','GET'])
 def show_confirmation():
