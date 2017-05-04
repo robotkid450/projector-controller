@@ -155,6 +155,9 @@ class projector:
         rawHours = self._sendCommandRead('3')
         if rawHours == '?':
             print('error getting lamp hours')
+            
+        elif rawHours == '':
+            Hours = -1, -1
         else:
             rawHours = str(rawHours)
             Hours = rawHours.split(' ')
@@ -170,6 +173,9 @@ class projector:
         rawInput = self._sendCommandRead('1')
         if rawInput == '?':
             print('error getting status')
+            
+        elif rawInput == '':
+            videoInput = -1, -1
         else:
             videoInput = int(rawInput)
             self.currentInput = videoInput
