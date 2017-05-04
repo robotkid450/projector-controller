@@ -9,7 +9,7 @@ class projector:
     def __init__(self, port="/dev/ttyUSB0", baudrate=19200):
         self.serialPort = port
         self.serialBaudrate = baudrate
-        self.serialIs_connected = 0
+        self.serialIsConnected = 0
         self.commandDelay = .1
         self.statusCodeGeneral = ''
         self.currentInput = 0
@@ -21,21 +21,21 @@ class projector:
             self.serialCon = serial.Serial(
                 port=self.serialPort, baudrate=self.serialBaudrate, timeout=3)
         except:
-            self.serialIs_connected = 0
-            print("error _connecting to device")
+            self.serialIsConnected = 0
+            print("error connecting to device")
         else:
-            self.serialIs_connected = 1
+            self.serialIsConnected = 1
 
     def _disconnect(self):
         # disconects serial port
         try:
             self.serialCon.close()
         except:
-            self.serialIs_connected = -1
+            self.serialIsConnected = -1
             print("error disconecting ??")
         else:
             print("serial disconected")
-            self.serialIs_connected = 0
+            self.serialIsConnected = 0
 
     def _readline(self):
         # reads from input buffer until it reaches '\r' (carage return)
