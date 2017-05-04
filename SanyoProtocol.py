@@ -141,6 +141,7 @@ class projector:
         status = self._sendCommandRead('0')
         if status == '?':
             print('error getting status')
+            status = -1
         else:
             self.statusCodeGeneral = status
 
