@@ -8,8 +8,10 @@ app = Flask(__name__)
 
 @app.route('/', methods=['POST', 'GET'])
 def main_control():
-	#leftProj = Sanyo.projector(port='/dev/ttyS0')
+	#p1 = Sanyo.projector(port='/dev/ttyS0')
+	#p2 = Sanyo.projector(port='/dev/ttyS1')
 	p1 = Sanyo.projector(port='/dev/ttyUSB0')
+	p2 = Sanyo.projector(port='/dev/ttyUSB1')
 	statusP1 = p1.getStatusGeneral()
 	#status = 'a'
 	if request.method == 'GET':
