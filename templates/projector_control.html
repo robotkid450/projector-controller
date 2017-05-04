@@ -1,11 +1,56 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html><head>
-<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>projector control</title>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>Projector Control</title>
+<style media="screen">
+  .powerBtn{
+    width:100%;
+  }
+
+  .inputBtn{
+    width:100%;
+  }
+</style>
 
 </head>
   <body>
     <form action="/" method="post">
-      <button type="submit" name="submit" value="powerOn">Power ON</button>
+      <h1>Projector Control</h1>
+      <table>
+        <tr>
+          <th>Power</th>
+          <th>Input Select</th>
+          <th colspan="2">Status</th>
+        </tr>
+        <tr>
+          <td>
+            <button type="submit" name="submit" value="powerOn" class="powerBtn">Power ON</button>
+          </td>
+          <td>
+            <button type="submit" name="submit" value="Input1" class="inputBtn">DVI</button>
+          </td>
+          <td>Lamp 1 Hours:</td>
+          <td> {{l1hours}}! Hrs. </td>
+        </tr>
+        <tr>
+          <td>
+            <button type="submit" name="submit" value="powerOff" class="powerBtn">Power OFF</button>
+          </td>
+          <td>
+            <button type="submit" name="submit" value="Input2" class="inputBtn">VGA</button>
+          </td>
+          <td>Lamp 2 Hours:</td>
+          <td> {{l2hours}}! Hrs.</td>
+        </tr>
+          <td></td>
+          <td>
+            <button type="submit" name="submit" value="Input3" class="inputBtn">AV</button>
+          </td>
+          <td>Status:</td>
+          <td> {{status}}!</td>
+        </tr>
 
+      </table>
+
+    </form>
   <br>
 </body></html>
