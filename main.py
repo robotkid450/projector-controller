@@ -98,7 +98,6 @@ def main_control():
 		elif action == 'powerOffP1':
 			print("power Off P1")
 			return redirect('/confirm', code=307)
-			p1.powerOff()
 			
 		elif action == 'Input1P1':
 			print("input 1 P1")
@@ -120,7 +119,6 @@ def main_control():
 		elif action == 'powerOffP2':
 			print("power Off P2")
 			return redirect('/confirm', code=307)
-			p2.powerOff()
 			
 		elif action == 'Input1P2':
 			print("input 1 P2")
