@@ -6,7 +6,10 @@ from flask import Flask, render_template, request, redirect
 
 app = Flask(__name__)
 
-
+#p1 = Sanyo.projector(port='/dev/ttyS0')
+#p2 = Sanyo.projector(port='/dev/ttyS1')
+#p1 = Sanyo.projector(port='/dev/ttyUSB0')
+#p2 = Sanyo.projector(port='/dev/ttyUSB1')
 p1 = Sanyo.projector(port='/dev/pts/8')
 p2 = Sanyo.projector(port='/dev/pts/9')
 
@@ -79,12 +82,6 @@ def render_main(projector1, projector2):
 
 @app.route('/', methods=['POST', 'GET'])
 def main_control():
-	#p1 = Sanyo.projector(port='/dev/ttyS0')
-	#p2 = Sanyo.projector(port='/dev/ttyS1')
-	#p1 = Sanyo.projector(port='/dev/ttyUSB0')
-	#p2 = Sanyo.projector(port='/dev/ttyUSB1')
-	
-
 	if request.method == 'GET':
 		return render_main(p1, p2)
 
