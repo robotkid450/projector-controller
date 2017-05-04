@@ -8,11 +8,70 @@ app = Flask(__name__)
 
 
 def render_main(projector1, projector2):
+	# get general status
 	genstatP1 = projector1.getStatusGeneral()
+	if genstatP1 != '00':
+		powerColP1 = "red"
+	else:
+		powerColP1 = "green"
+		
 	genstatP2 = projector2.getStatusGeneral()
+	if genstatP2 != '00':
+		powerColP2 = "red"
+	else:
+		powerColP2 = "green"
+		
+		
+	vidInputP1 = projector1.getInput()
+	print('vidInputP1: ', vidInputP1)
+	if vidInputP1 == 1:
+		dviP1 = "green"
+		vgaP1 = ""
+		avP1 = ""
+	
+	elif vidInputP1 == 2:
+		dviP1 = ""
+		vgaP1 = "green"
+		avP1 = ""
+		
+	elif vidInputP1 == 3:
+		dviP1 = ""
+		vgaP1 = ""
+		avP1 = "green"
+	
+	else:
+		dviP1 = ""
+		vgaP1 = ""
+		avP1 = ""
+		
+	vidInputP2 = projector2.getInput()
+	print('vidInputP2: ', vidInputP2)
+	if vidInputP2 == 1:
+		dviP2 = "green"
+		vgaP2 = ""
+		avP2 = ""
+	
+	elif vidInputP2 == 2:
+		dviP2 = ""
+		vgaP2 = "green"
+		avP2 = ""
+		
+	elif vidInputP2 == 3:
+		dviP2 = ""
+		vgaP2 = ""
+		avP2 = "green"
+	
+	else:
+		dviP2 = ""
+		vgaP2 = ""
+		avP2 = ""
+		
+	# get lamp hours
 	lamphourL1P1, lamphourL2P1 = projector1.getLampHour()
-	#lamphour = projector1.getLampHour()
-	return render_template('projector_control.html', statusP1 = genstatP1, statusP2 = genstatP2, l1hoursP1 = lamphourL1P1, l2hoursP1 = lamphourL2P1)
+	lamphourL1P2, lamphourL2P2 = projector2.getLampHour()
+	
+	# render the page
+	return render_template('projector_control.html', statusP1 = genstatP1, statusP2 = genstatP2, l1hoursP1 = lamphourL1P1, l2hoursP1 = lamphourL2P1, l1hoursP2 = lamphourL1P2, l2hoursP2 = lamphourL2P2, powerColorP1 = powerColP1, powerColorP2 = powerColP2, DVIP1 = dviP1, VGAP1 = vgaP1, AVP1 = avP1, DVIP2 = dviP2, VGAP2 = vgaP2, AVP2 = avP2)
 
 @app.route('/', methods=['POST', 'GET'])
 def main_control():
