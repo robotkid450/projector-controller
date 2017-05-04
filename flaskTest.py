@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import SanyoProtocol as Sanyo
 
 from flask import Flask, render_template, request
 
@@ -7,9 +8,13 @@ app = Flask(__name__)
 
 @app.route('/', methods=['POST', 'GET'])
 def main_control():
+	#leftProj = Sanyo.projector(port='/dev/ttyS0')
+	leftProj = Sanyo.projector(port='/dev/ttyUSB0')
+	status = leftProj.getStatusGeneral()
+	#status = 'a'
 	if request.method == 'GET':
 		print("nom")
-		return render_template('projector_control.html')
+		return render_template('projector_control.html', statusP1 = status)
 
 	elif request.method == 'POST':
 		print(request.form)
@@ -42,4 +47,4 @@ def show_lamp_hours():
 
 
 if __name__ == "__main__":
-    app.run()
+	app.run()
