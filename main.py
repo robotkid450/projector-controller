@@ -9,12 +9,12 @@ app = Flask(__name__)
 @app.route('/', methods=['POST', 'GET'])
 def main_control():
 	#leftProj = Sanyo.projector(port='/dev/ttyS0')
-	leftProj = Sanyo.projector(port='/dev/ttyUSB0')
-	status = leftProj.getStatusGeneral()
+	p1 = Sanyo.projector(port='/dev/ttyUSB0')
+	statusP1 = p1.getStatusGeneral()
 	#status = 'a'
 	if request.method == 'GET':
 		print("nom")
-		return render_template('projector_control.html', statusP1 = status)
+		return render_template('projector_control.html', statusP1 = statusP1)
 
 	elif request.method == 'POST':
 		print(request.form)
