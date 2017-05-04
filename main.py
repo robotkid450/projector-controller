@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
 import SanyoProtocol as Sanyo
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 
 
 app = Flask(__name__)
+
+
+p1 = Sanyo.projector(port='/dev/pts/8')
+p2 = Sanyo.projector(port='/dev/pts/9')
 
 
 def render_main(projector1, projector2):
@@ -79,8 +83,7 @@ def main_control():
 	#p2 = Sanyo.projector(port='/dev/ttyS1')
 	#p1 = Sanyo.projector(port='/dev/ttyUSB0')
 	#p2 = Sanyo.projector(port='/dev/ttyUSB1')
-	p1 = Sanyo.projector(port='/dev/pts/6')
-	p2 = Sanyo.projector(port='/dev/pts/8')
+	
 
 	if request.method == 'GET':
 		return render_main(p1, p2)
@@ -94,6 +97,7 @@ def main_control():
 			
 		elif action == 'powerOffP1':
 			print("power Off P1")
+			return redirect('/confirm', code=307)
 			p1.powerOff()
 			
 		elif action == 'Input1P1':
@@ -115,6 +119,7 @@ def main_control():
 			
 		elif action == 'powerOffP2':
 			print("power Off P2")
+			return redirect('/confirm', code=307)
 			p2.powerOff()
 			
 		elif action == 'Input1P2':
@@ -133,25 +138,42 @@ def main_control():
 		return render_main(p1, p2)
 		
 
-@app.route('/confirm', methods=['POST','GET'])
+@app.route('/confirm', methods=['POST'])
 def show_confirmation():
-	if request.method == 'POST':
-		pass
+	action = request.form['submit']
+	
+	print(action)
+	
+	
+	if action == 'powerOffP1':
+		return render_template('confirm.html', projector = 'left', proJ = '1')
+	
+	elif action == 'powerOffP2':
+		return render_template('confirm.html', projector = 'right', proJ = '2')
+		
+	elif action == 'confirmP1':
+		p1.powerOff()
+		return redirect('/', code=302)
+		
+	elif action == 'confirmP2':
+		p2.powerOff()
+		return redirect('/', code=302)
+		
+	elif action == 'cancel':
+		return redirect('/', code=302)
+		
 
-	elif request.method == 'GET':
-		return render_template()
 
 
 
+#@app.route('/login', methods=['POST'])
+#def process_login():
+#	_uname = request.form['username']
+#	_password = reqest.form['password']
 
-@app.route('/login', methods=['POST'])
-def process_login():
-	_uname = request.form['username']
-	_password = reqest.form['password']
-
-@app.route('/lampHours')
-def show_lamp_hours():
-	return "lamp hours"
+#@app.route('/lampHours')
+#def show_lamp_hours():
+#	return "lamp hours"
 
 
 if __name__ == "__main__":

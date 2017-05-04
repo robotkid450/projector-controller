@@ -16,22 +16,24 @@
             width:25px;
         }
     </style>
-  </head>
-  <body>
-      <table>
-          <tr>
-              <th>
-                  Are you sure?
-              </th>
-          </tr>
-          <tr>
-              <td>
-                 <button type="submit" name="submit" value="confirm" class="cnfBtn">OK</button>
-              </td>
-              <td>
-                 <button type="submit" name="submit" value="cancel" class="cnfBtn">Cancel</button>
-              </td>
-          </tr>
-      </table>
-  </body>
+    </head>
+    <body>
+        <form action="/confirm" method="POST">
+            <table>
+                <tr>
+                    <th>
+                        Power {{projector}} off?
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="submit" name="submit" value="confirmP{{proJ}}" class="cnfBtn">OK</button>
+                    </td>
+                    <td>
+                        <button type="submit" name="submit" value="cancel" class="cnfBtn">Cancel</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </body>
 </html>
