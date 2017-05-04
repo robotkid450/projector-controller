@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html><head>
 <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>Projector Control</title>
 <style media="screen">
@@ -9,6 +9,9 @@
   .inputBtn{
     width:100%;
   }
+  .spacerCell{
+    width:25px;
+  }
 </style>
 
 </head>
@@ -17,36 +20,70 @@
       <h1>Projector Control</h1>
       <table>
         <tr>
+          <th colspan="4">Left</th>
+          <th class="spacerCell"></th>
+          <th colspan="4">Right</th>
+        </tr>
+        <tr>
+          <th>Power</th>
+          <th>Input Select</th>
+          <th colspan="2">Status</th>
+          <th class="spacerCell"></th>
           <th>Power</th>
           <th>Input Select</th>
           <th colspan="2">Status</th>
         </tr>
         <tr>
           <td>
-            <button type="submit" name="submit" value="powerOn" class="powerBtn">Power ON</button>
+            <button type="submit" name="submit" value="powerOnp1" class="powerBtn">Power ON</button>
           </td>
           <td>
-            <button type="submit" name="submit" value="Input1" class="inputBtn">DVI</button>
+            <button type="submit" name="submit" value="Input1p1" class="inputBtn">DVI</button>
           </td>
           <td>Lamp 1 Hours:</td>
-          <td> {{l1hours}}! Hrs. </td>
+          <td> {{l1hoursP1}} Hrs. </td>
+          <td class="spacerCell"></td>
+          <td>
+            <button type="submit" name="submit" value="powerOnp2" class="powerBtn">Power ON</button>
+          </td>
+          <td>
+            <button type="submit" name="submit" value="Input1p2" class="inputBtn">DVI</button>
+          </td>
+          <td>Lamp 1 Hours:</td>
+          <td> {{l1hoursP2}} Hrs. </td>
         </tr>
         <tr>
           <td>
-            <button type="submit" name="submit" value="powerOff" class="powerBtn">Power OFF</button>
+            <button type="submit" name="submit" value="powerOffp1" class="powerBtn">Power OFF</button>
           </td>
           <td>
-            <button type="submit" name="submit" value="Input2" class="inputBtn">VGA</button>
+            <button type="submit" name="submit" value="Input2p1" class="inputBtn">VGA</button>
           </td>
           <td>Lamp 2 Hours:</td>
-          <td> {{l2hours}}! Hrs.</td>
+          <td> {{l2hoursP1}} Hrs.</td>
+          <td class="spacerCell"></td>
+          <td>
+            <button type="submit" name="submit" value="powerOffp2" class="powerBtn">Power OFF</button>
+          </td>
+          <td>
+            <button type="submit" name="submit" value="Input2p2" class="inputBtn">VGA</button>
+          </td>
+          <td>Lamp 2 Hours:</td>
+          <td> {{l2hoursP2}} Hrs.</td>
         </tr>
           <td></td>
           <td>
-            <button type="submit" name="submit" value="Input3" class="inputBtn">AV</button>
+            <button type="submit" name="submit" value="Input3p1" class="inputBtn">AV</button>
           </td>
           <td>Status:</td>
-          <td> {{status}}!</td>
+          <td> {{statusP1}}</td>
+          <td class="spacerCell"></td>
+          <td></td>
+          <td>
+            <button type="submit" name="submit" value="Input3p2" class="inputBtn">AV</button>
+          </td>
+          <td>Status:</td>
+          <td> {{statusP2}}</td>
         </tr>
 
       </table>
