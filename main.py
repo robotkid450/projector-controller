@@ -10,7 +10,7 @@ app = Flask(__name__)
 #p2 = Sanyo.projector(port='/dev/ttyS1')
 #p1 = Sanyo.projector(port='/dev/ttyUSB0')
 #p2 = Sanyo.projector(port='/dev/ttyUSB1')
-p1 = Sanyo.projector(port='/dev/pts/8')
+p1 = Sanyo.projector(port='/dev/pts/7')
 p2 = Sanyo.projector(port='/dev/pts/9')
 
 
@@ -172,4 +172,4 @@ def show_confirmation():
 
 
 if __name__ == "__main__":
-	app.run()
+	app.run(host='0.0.0.0')
