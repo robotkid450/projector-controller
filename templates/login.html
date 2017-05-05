@@ -1,21 +1,12 @@
-<!DOCTYPE html>
-<html lang="en"><head><title>Projector Control</title></head>
-<body>
-<table style="text-align: left; width: 1306px; height: 191px;" border="1" cellpadding="2" cellspacing="2">
-<tbody>
-<tr>
-<td class="">Projector Control</td>
-</tr>
-<tr>
-<td>Username : <input name="username"></td>
-</tr>
-<tr>
-<td>Password : <input name="password" type="password"></td>
-</tr>
-<tr>
-<td><button title="Submit">Submit</button></td>
-</tr>
-</tbody>
-</table>
-<br>
-</body></html>
+{% block body %}
+{% if session['logged_in'] %}
+<p>You're logged in already!</p>
+{% else %}
+<form action="/login" method="POST">
+  <h1>Projector control login</h1>
+  <input type="text" name="username" placeholder="username">
+  <input type="password" name="password" placeholder="Password">
+  <input type="submit" value="Log in">
+</form>
+{% endif %}
+{% endblock %}

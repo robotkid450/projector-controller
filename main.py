@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 import SanyoProtocol as Sanyo
 
-from flask import Flask, render_template, request, redirect
-
+from flask import Flask, render_template, request, redirect, flash, session, abort
+import os
 
 app = Flask(__name__)
+app.secret_key = os.urandom(12)
 
 #p1 = Sanyo.projector(port='/dev/ttyS0')
 #p2 = Sanyo.projector(port='/dev/ttyS1')
@@ -83,6 +84,8 @@ def render_main(projector1, projector2):
 @app.route('/', methods=['POST', 'GET'])
 def main_control():
 	if request.method == 'GET':
+		if not session.get('logged_in'):
+			return render_template('login.html')
 		return render_main(p1, p2)
 
 	elif request.method == 'POST':
@@ -161,15 +164,18 @@ def show_confirmation():
 
 
 
-#@app.route('/login', methods=['POST'])
-#def process_login():
-#	_uname = request.form['username']
-#	_password = reqest.form['password']
-
-#@app.route('/lampHours')
-#def show_lamp_hours():
-#	return "lamp hours"
-
+@app.route('/login', methods=['POST'])
+def process_login():
+	if request.form['password'] == 'password' and request.form['username'] == 'admin':
+		session['logged_in'] = True
+		
+	else:
+		flash("wrong username / password")
+	
+	return redirect('/', code=302)
+	
 
 if __name__ == "__main__":
-	app.run(host='0.0.0.0')
+	app.secret_key = os.urandom(12)
+	print(app.secret_key)
+	app.run(host='0.0.0.0', port=8080)
