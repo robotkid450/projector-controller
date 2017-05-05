@@ -1,0 +1,12 @@
+[Unit]
+Description=Projector remote control system
+Documentation=https://github.com/robotkid450/projector-controller
+After=network.target
+
+[Service]
+User=%i
+ExecStart=/home/%i/projector-controller
+
+
+[Install]
+WantedBy=multi-user.target
