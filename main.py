@@ -7,12 +7,12 @@ import os
 app = Flask(__name__)
 app.secret_key = os.urandom(12)
 
-#p1 = Sanyo.projector(port='/dev/ttyS0')
-#p2 = Sanyo.projector(port='/dev/ttyS1')
+p1 = Sanyo.projector(port='/dev/ttyS0')
+p2 = Sanyo.projector(port='/dev/ttyS1')
 #p1 = Sanyo.projector(port='/dev/ttyUSB0')
 #p2 = Sanyo.projector(port='/dev/ttyUSB1')
-p1 = Sanyo.projector(port='/dev/pts/7')
-p2 = Sanyo.projector(port='/dev/pts/9')
+#p1 = Sanyo.projector(port='/dev/pts/7')
+#p2 = Sanyo.projector(port='/dev/pts/9')
 
 
 def render_main(projector1, projector2):
@@ -177,5 +177,4 @@ def process_login():
 
 if __name__ == "__main__":
 	app.secret_key = os.urandom(12)
-	print(app.secret_key)
 	app.run(host='0.0.0.0', port=8080)
