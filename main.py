@@ -7,15 +7,18 @@ import os
 app = Flask(__name__)
 app.secret_key = os.urandom(12)
 
-p1 = Sanyo.projector(port='/dev/ttyS0')
+#p1 = Sanyo.projector(port='/dev/ttyS0')
 p2 = Sanyo.projector(port='/dev/ttyS1')
-#p1 = Sanyo.projector(port='/dev/ttyUSB0')
+p1 = Sanyo.projector(port='/dev/ttyUSB0')
 #p2 = Sanyo.projector(port='/dev/ttyUSB1')
 #p1 = Sanyo.projector(port='/dev/pts/1')
 #p2 = Sanyo.projector(port='/dev/pts/3')
 
 
 def render_main(projector1, projector2):
+	# allow projcessing of previous commands
+	time.sleep(.1)
+
 	# get general status
 	genstatP1 = projector1.getStatusGeneral()
 	if genstatP1 != '00':
@@ -28,7 +31,9 @@ def render_main(projector1, projector2):
 		powerColP2 = "red"
 	else:
 		powerColP2 = "green"
-
+	
+	# give projector time to process
+	time.sleep(.1)
 
 	vidInputP1 = projector1.getInput()
 	print('vidInputP1: ', vidInputP1)
@@ -73,6 +78,9 @@ def render_main(projector1, projector2):
 		dviP2 = ""
 		vgaP2 = ""
 		avP2 = ""
+
+	# give projector time to process
+	time.sleep(.1)
 
 	# get lamp hours
 	lamphourL1P1, lamphourL2P1 = projector1.getLampHour()
