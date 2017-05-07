@@ -67,7 +67,7 @@ def render_main(projector1, projector2):
 	if genstatP2 in statusMsgs:
 		statusMsgP2 = statusMsgs[genstatP2]
 	else:
-		statusMsgP1 = 'No connection'
+		statusMsgP2 = 'No connection'
 
 
 	# give projector time to process
