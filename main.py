@@ -48,7 +48,11 @@ def render_main(projector1, projector2):
 	else:
 		powerColP1 = "orange"
 
-	statusMsgP1 = statusMsgs[genstatP1]
+	#statusMsgP1 = statusMsgs[genstatP1]
+	if genstatP1 in statusMsgs:
+		statusMsgP1 = statusMsgs[genstatP1]
+	else:
+		statusMsgP1 = 'No connection'
 
 	genstatP2 = projector2.getStatusGeneral()
 	if genstatP2 == '00':
@@ -59,7 +63,12 @@ def render_main(projector1, projector2):
 	else:
 		powerColP2 = "orange"
 
-	statusMsgP2 = statusMsgs[genstatP2]
+	#statusMsgP2 = statusMsgs[genstatP2]
+	if genstatP2 in statusMsgs:
+		statusMsgP2 = statusMsgs[genstatP2]
+	else:
+		statusMsgP1 = 'No connection'
+
 
 	# give projector time to process
 	time.sleep(processing_delay)
