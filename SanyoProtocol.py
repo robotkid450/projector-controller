@@ -142,6 +142,8 @@ class projector:
         if status == '?':
             print('error getting status')
             status = -1
+        elif status == '02':
+            status = getStatusGeneral()
         else:
             self.statusCodeGeneral = status
 
@@ -155,7 +157,7 @@ class projector:
         rawHours = self._sendCommandRead('3')
         if rawHours == '?':
             print('error getting lamp hours')
-            
+
         elif rawHours == '':
             Hours = -1, -1
         else:
@@ -173,7 +175,7 @@ class projector:
         rawInput = self._sendCommandRead('1')
         if rawInput == '?':
             print('error getting status')
-            
+
         elif rawInput == '':
             videoInput = -1, -1
         else:
