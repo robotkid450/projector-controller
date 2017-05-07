@@ -40,18 +40,24 @@ def render_main(projector1, projector2):
 
 	# get general status
 	genstatP1 = projector1.getStatusGeneral()
-	if genstatP1 != '00':
+	if genstatP1 == '00':
+		powerColP1 = "green"
+
+	elif genstatP1 == '80':
 		powerColP1 = "red"
 	else:
-		powerColP1 = "green"
+		powerColP1 = "orange"
 
 	statusMsgP1 = statusMsgs[genstatP1]
 
 	genstatP2 = projector2.getStatusGeneral()
-	if genstatP2 != '00':
+	if genstatP2 == '00':
+		powerColP2 = "green"
+
+	elif genstatP2 == '80':
 		powerColP2 = "red"
 	else:
-		powerColP2 = "green"
+		powerColP2 = "orange"
 
 	statusMsgP2 = statusMsgs[genstatP2]
 
@@ -110,7 +116,7 @@ def render_main(projector1, projector2):
 	lamphourL1P2, lamphourL2P2 = projector2.getLampHour()
 
 	# render the page
-	return render_template('projector_control.html', statusP1 = statusMsgP1, statusP2 = genstatP2, l1hoursP1 = lamphourL1P1, l2hoursP1 = lamphourL2P1, l1hoursP2 = lamphourL1P2, l2hoursP2 = lamphourL2P2, powerColorP1 = powerColP1, powerColorP2 = powerColP2, DVIP1 = dviP1, VGAP1 = vgaP1, AVP1 = avP1, DVIP2 = dviP2, VGAP2 = vgaP2, AVP2 = avP2)
+	return render_template('projector_control.html', statusP1 = statusMsgP1, statusP2 = statusMsgP2, l1hoursP1 = lamphourL1P1, l2hoursP1 = lamphourL2P1, l1hoursP2 = lamphourL1P2, l2hoursP2 = lamphourL2P2, powerColorP1 = powerColP1, powerColorP2 = powerColP2, DVIP1 = dviP1, VGAP1 = vgaP1, AVP1 = avP1, DVIP2 = dviP2, VGAP2 = vgaP2, AVP2 = avP2)
 
 @app.route('/', methods=['POST', 'GET'])
 def main_control():
