@@ -3,19 +3,36 @@ import SanyoProtocol as Sanyo
 
 from flask import Flask, render_template, request, redirect, flash, session, abort
 import os
+import time
+
+statusMsgs = {'00' : 'ON',
+ 	'80' : 'Standby',
+	'40' : 'Warming',
+	'20' : 'Cooling',
+	'10' : 'Power Failure',
+	'28' : 'Cooling : HIGH TEMP.',
+	'02' : 'resend stat cmd',
+	'24' : 'PM cool down',
+	'04' : 'PM status',
+	'21' : 'Cooling : Lamp Failure',
+	'81' : 'Standby : Lamp Failure',
+	'88' : 'Standby : HIGH TEMP'
+	}
+
+
 
 app = Flask(__name__)
 app.secret_key = os.urandom(12)
 
 #p1 = Sanyo.projector(port='/dev/ttyS0')
-p2 = Sanyo.projector(port='/dev/ttyS1')
-p1 = Sanyo.projector(port='/dev/ttyUSB0')
+#p2 = Sanyo.projector(port='/dev/ttyS1')
+#p1 = Sanyo.projector(port='/dev/ttyUSB0')
 #p2 = Sanyo.projector(port='/dev/ttyUSB1')
-#p1 = Sanyo.projector(port='/dev/pts/1')
-#p2 = Sanyo.projector(port='/dev/pts/3')
+p1 = Sanyo.projector(port='/dev/pts/2')
+p2 = Sanyo.projector(port='/dev/pts/4')
 
 
-processing_delay = .2
+processing_delay = .5
 
 def render_main(projector1, projector2):
 	# allow projcessing of previous commands
@@ -28,11 +45,15 @@ def render_main(projector1, projector2):
 	else:
 		powerColP1 = "green"
 
+	statusMsgP1 = statusMsgs[genstatP1]
+
 	genstatP2 = projector2.getStatusGeneral()
 	if genstatP2 != '00':
 		powerColP2 = "red"
 	else:
 		powerColP2 = "green"
+
+	statusMsgP2 = statusMsgs[genstatP2]
 
 	# give projector time to process
 	time.sleep(processing_delay)
@@ -89,7 +110,7 @@ def render_main(projector1, projector2):
 	lamphourL1P2, lamphourL2P2 = projector2.getLampHour()
 
 	# render the page
-	return render_template('projector_control.html', statusP1 = genstatP1, statusP2 = genstatP2, l1hoursP1 = lamphourL1P1, l2hoursP1 = lamphourL2P1, l1hoursP2 = lamphourL1P2, l2hoursP2 = lamphourL2P2, powerColorP1 = powerColP1, powerColorP2 = powerColP2, DVIP1 = dviP1, VGAP1 = vgaP1, AVP1 = avP1, DVIP2 = dviP2, VGAP2 = vgaP2, AVP2 = avP2)
+	return render_template('projector_control.html', statusP1 = statusMsgP1, statusP2 = genstatP2, l1hoursP1 = lamphourL1P1, l2hoursP1 = lamphourL2P1, l1hoursP2 = lamphourL1P2, l2hoursP2 = lamphourL2P2, powerColorP1 = powerColP1, powerColorP2 = powerColP2, DVIP1 = dviP1, VGAP1 = vgaP1, AVP1 = avP1, DVIP2 = dviP2, VGAP2 = vgaP2, AVP2 = avP2)
 
 @app.route('/', methods=['POST', 'GET'])
 def main_control():
