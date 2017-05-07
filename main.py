@@ -15,9 +15,11 @@ p1 = Sanyo.projector(port='/dev/ttyUSB0')
 #p2 = Sanyo.projector(port='/dev/pts/3')
 
 
+processing_delay = .2
+
 def render_main(projector1, projector2):
 	# allow projcessing of previous commands
-	time.sleep(.1)
+	time.sleep(processing_delay)
 
 	# get general status
 	genstatP1 = projector1.getStatusGeneral()
@@ -31,9 +33,9 @@ def render_main(projector1, projector2):
 		powerColP2 = "red"
 	else:
 		powerColP2 = "green"
-	
+
 	# give projector time to process
-	time.sleep(.1)
+	time.sleep(processing_delay)
 
 	vidInputP1 = projector1.getInput()
 	print('vidInputP1: ', vidInputP1)
@@ -80,7 +82,7 @@ def render_main(projector1, projector2):
 		avP2 = ""
 
 	# give projector time to process
-	time.sleep(.1)
+	time.sleep(processing_delay)
 
 	# get lamp hours
 	lamphourL1P1, lamphourL2P1 = projector1.getLampHour()
