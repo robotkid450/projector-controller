@@ -14,6 +14,7 @@ class projector:
         self.statusCodeGeneral = ''
         self.currentInput = 0
         self.lampHours = -1
+        self.error = 0
 
     def _connect(self):
         # connects serial port
@@ -23,8 +24,10 @@ class projector:
         except:
             self.serialIsConnected = 0
             print("error connecting to device")
+            self.error = 1
         else:
             self.serialIsConnected = 1
+            
 
     def _disconnect(self):
         # disconects serial port
@@ -39,6 +42,8 @@ class projector:
 
     def _readline(self):
         # reads from input buffer until it reaches '\r' (carage return)
+        if self.error != 0:
+            return self.error
         msg = ''
         time.sleep(.1)
         charsAvalible = self.serialCon.in_waiting
@@ -52,6 +57,8 @@ class projector:
         return msg
 
     def _sendCommandControl(self, command):
+        if self.error != 0:
+            return self.error
         # sends a control command to projector
         # build command string
         commandToSend = "C" + str(command) + '\r'
@@ -73,6 +80,8 @@ class projector:
         return ack
 
     def _sendCommandRead(self, command):
+        if self.error != 0:
+            return self.error
         # sends a read command to projector and return status message
         # build command string
         commandToSend = "CR" + str(command) + '\r'
@@ -93,6 +102,8 @@ class projector:
         return returnCode
 
     def _getAck(self):
+        if self.error != 0:
+            return self.error
         # checks if control commands were sent correctly
         ack = self._readline()
         if ack == '\x06':
@@ -135,17 +146,22 @@ class projector:
         self._disconnect()
         return status
 
-    def getStatusGeneral(self):
+    def getStatusGeneral(self, recursionCheck = 0):
         # polls projector for its general status. returns string
         self._connect()
         status = self._sendCommandRead('0')
         if status == '?':
             print('error getting status')
             status = -1
+            
         elif status == '02':
-            status = getStatusGeneral()
+            if recursionCheck <= 3:
+                status = self.getStatusGeneral((recursionCheck + 1))
+            else:
+                status = -2
         else:
             self.statusCodeGeneral = status
+
 
         self._disconnect()
 
