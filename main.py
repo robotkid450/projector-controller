@@ -24,12 +24,12 @@ statusMsgs = {'00' : 'ON',
 app = Flask(__name__)
 app.secret_key = os.urandom(12)
 
-#p1 = Sanyo.projector(port='/dev/ttyS0')
-#p2 = Sanyo.projector(port='/dev/ttyS1')
+p1 = Sanyo.projector(port='/dev/ttyS0')
+p2 = Sanyo.projector(port='/dev/ttyS1')
 #p1 = Sanyo.projector(port='/dev/ttyUSB0')
 #p2 = Sanyo.projector(port='/dev/ttyUSB1')
-p1 = Sanyo.projector(port='/dev/pts/7')
-p2 = Sanyo.projector(port='/dev/pts/10')
+#p1 = Sanyo.projector(port='/dev/pts/7')	
+#p2 = Sanyo.projector(port='/dev/pts/10')
 
 
 processing_delay = .5
