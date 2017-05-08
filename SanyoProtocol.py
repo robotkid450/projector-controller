@@ -24,7 +24,7 @@ class projector:
         except:
             self.serialIsConnected = 0
             print("error connecting to device")
-            self.error = 1
+            self.error = -2
         else:
             self.serialIsConnected = 1
             
@@ -171,10 +171,11 @@ class projector:
         # polls projector for its current lamp Hours. Returns a list of 1 to 4 int
         self._connect()
         rawHours = self._sendCommandRead('3')
+        print(rawHours)
         if rawHours == '?':
             print('error getting lamp hours')
 
-        elif rawHours == '':
+        elif rawHours == '' or rawHours == -2:
             Hours = -1, -1
         else:
             rawHours = str(rawHours)

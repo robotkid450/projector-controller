@@ -28,8 +28,8 @@ app.secret_key = os.urandom(12)
 #p2 = Sanyo.projector(port='/dev/ttyS1')
 #p1 = Sanyo.projector(port='/dev/ttyUSB0')
 #p2 = Sanyo.projector(port='/dev/ttyUSB1')
-p1 = Sanyo.projector(port='/dev/pts/2')
-p2 = Sanyo.projector(port='/dev/pts/4')
+p1 = Sanyo.projector(port='/dev/pts/7')
+p2 = Sanyo.projector(port='/dev/pts/10')
 
 
 processing_delay = .5
